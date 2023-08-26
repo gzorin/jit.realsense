@@ -42,7 +42,7 @@ if(WIN32)
 endif()
 
 set(BUILD_EXAMPLES 0)
-add_subdirectory(librealsense)
+find_package(realsense2 REQUIRED)
 set(CMAKE_POSITION_INDEPENDENT_CODE True)
 
 ### C74 stuff
@@ -104,7 +104,8 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_DEBUG "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}")
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_RELEASE "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}")
 
 add_library(${PROJECT_NAME} MODULE jit.realsense.cpp max.jit.realsense.cpp  ${C74SUPPORT}/max-includes/common/commonsyms.c)
-target_link_libraries(${PROJECT_NAME} PRIVATE MaxAPI Jitter realsense2)
+target_include_directories(${PROJECT_NAME} PRIVATE ${realsense2_INCLUDE_DIR})
+target_link_libraries(${PROJECT_NAME} PRIVATE MaxAPI Jitter ${realsense2_LIBRARY})
 set_target_properties(${PROJECT_NAME} PROPERTIES CXX_STANDARD 17)
 
 if(APPLE)
